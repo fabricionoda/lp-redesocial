@@ -1,0 +1,30 @@
+package redesocial.comando;
+
+import redesocial.servico.PostagemMensagem;
+import redesocial.servico.PostagemMensagemImpl;
+
+public class PostagemMensagemComandoImpl implements Comando {
+
+	private PostagemMensagem postagemMensagem;
+
+	public PostagemMensagemComandoImpl() {
+		postagemMensagem = new PostagemMensagemImpl();
+	}
+
+	public String execute(String... parametros) {
+
+		if (parametros.length != 2) {
+			return "mensagem-invalida";
+		}
+
+		String nomeUsuario = parametros[0];
+		String msg = parametros[1];
+
+		return postagemMensagem.postarMensagem(nomeUsuario, msg);
+	}
+
+	public int getNumeroArgumentos() {
+		return 2;
+	}
+
+}

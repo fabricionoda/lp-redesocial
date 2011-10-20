@@ -1,0 +1,20 @@
+package redesocial.comando;
+
+import redesocial.servico.AbstractListagemUsuario;
+import redesocial.servico.ListagemSeguidoresImpl;
+
+public class ListagemSeguidoresComandoImpl implements Comando {
+
+	private AbstractListagemUsuario listagemUsuario;
+
+	public ListagemSeguidoresComandoImpl() {
+
+		listagemUsuario = new ListagemSeguidoresImpl();
+	}
+
+	public String execute(String... parametros) {
+
+		return listagemUsuario.listarUsuarios(parametros[0]);
+	}
+
+}

@@ -1,0 +1,33 @@
+package redesocial.comando;
+
+public interface Comando {
+
+	String RESETAR = "resetar";
+	
+	String CRIAR_USUARIO = "criar-usuario";
+
+	String POSTAR_MENSAGEM = "postar-mensagem";
+
+	String LISTAR_MENSAGENS_USUARIO = "listar-mensagens-usuario";
+
+	String SEGUIR = "seguir";
+
+	String LISTAR_SEGUIDORES = "listar-seguidores";
+
+	String LISTAR_SEGUIDOS = "listar-seguidos";
+
+	String LISTAR_MENSAGENS_SEGUIDOS = "listar-mensagens-seguidos";
+
+	String DEIXAR_DE_SEGUIR = "deixar-de-seguir";
+
+	String LISTAR_ESTATISTICAS_USUARIO = "listar-estatisticas-usuario";
+
+	String LISTAR_TENDENCIA = "listar-tendencia";
+
+	String LISTAR_MENSAGENS_COM_PALAVRA_MARCADA = "listar-mensagens-com-palavra-marcada";
+
+	String execute(String... parametros);
+
+	int getNumeroArgumentos();
+
+}

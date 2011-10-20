@@ -1,0 +1,29 @@
+package redesocial.servico;
+
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
+public class ListagemMensagemSeguidosImplTest {
+	
+	private CadastroUsuario cadastroUsuario = CadastroUsuarioSingleton
+			.getInstance();
+	
+	private PostagemMensagemImpl postagemMensagem = new PostagemMensagemImpl();
+	
+	private ListagemMensagemSeguidosImpl listagemMensagemSeguidos = new ListagemMensagemSeguidosImpl();
+	
+	@Test
+	public void testListagemMensagem() {				
+		
+		cadastroUsuario.cadastrarNovoUsuario("Noda");
+
+		assertEquals("ok", postagemMensagem.postarMensagem("Noda","teste"));
+
+		assertEquals("Noda teste/n", listagemMensagemSeguidos.listarMensagens("Noda"));
+		
+		//Falta implementação seguir
+		
+	}
+
+}

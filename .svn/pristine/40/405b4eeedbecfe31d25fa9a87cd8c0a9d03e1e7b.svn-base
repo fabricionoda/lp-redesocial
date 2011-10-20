@@ -1,0 +1,71 @@
+package redesocial.servico;
+
+import java.util.Hashtable;
+import java.util.Map;
+
+import redesocial.modelo.Usuario;
+import redesocial.servico.excecao.CadastroUsuarioException;
+
+public class CadastroUsuarioSingleton implements CadastroUsuario {
+
+	private volatile static CadastroUsuario instance;
+
+	private Map<String, Usuario> mapaUsuarios;
+
+	private ValidadorCadastroUsuarioCompositeImpl validadorCadastroUsuarioComposite;
+
+	private CadastroUsuarioSingleton() {
+		mapaUsuarios = new Hashtable<String, Usuario>();
+
+		validadorCadastroUsuarioComposite = new ValidadorCadastroUsuarioCompositeImpl();
+
+		validadorCadastroUsuarioComposite
+				.addValidadorCadastroUsuario(new ValidadorTamanhoNomeCadastroUsuarioImpl());
+		validadorCadastroUsuarioComposite
+				.addValidadorCadastroUsuario(new ValidadorSomenteLetrasCadastroUsuarioImpl());
+		validadorCadastroUsuarioComposite
+				.addValidadorCadastroUsuario(new ValidadorUsuarioJaCadastradoImpl(
+						mapaUsuarios));
+	}
+
+	public static CadastroUsuario getInstance() {
+
+		if (instance == null) {
+
+			synchronized (CadastroUsuarioSingleton.class) {
+
+				if (instance == null) {
+					instance = new CadastroUsuarioSingleton();
+				}
+			}
+		}
+		return instance;
+	}
+
+	public String cadastrarNovoUsuario(String nome) {
+
+		try {
+
+			validadorCadastroUsuarioComposite.validar(nome);
+
+		} catch (CadastroUsuarioException e) {
+			return e.getMessage();
+		}
+
+		mapaUsuarios.put(nome, new Usuario(nome));
+
+		return "ok";
+	}
+
+	public Usuario getUsuarioPorNome(String nome)
+			throws CadastroUsuarioException {
+
+		Usuario usuario = mapaUsuarios.get(nome);
+
+		if (usuario == null) {
+			throw new CadastroUsuarioException("usuario-nao-encontrado");
+		}
+
+		return usuario;
+	}
+}

@@ -1,0 +1,9 @@
+package redesocial.comando;
+
+public class ListagemMensagemSeguidosComandoImpl implements Comando {
+
+	public String execute(String... parametros) {
+		return null;
+	}
+
+}

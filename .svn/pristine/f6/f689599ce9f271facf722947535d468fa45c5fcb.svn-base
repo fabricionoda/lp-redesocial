@@ -1,0 +1,84 @@
+package redesocial.comando;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class ExecutorComando {
+
+	private Map<String, Comando> comandos;
+
+	public ExecutorComando() {
+
+		comandos = new HashMap<String, Comando>();
+
+		comandos.put(Comando.CRIAR_USUARIO, new CadastroUsuarioComandoImpl());
+
+		comandos.put(Comando.DEIXAR_DE_SEGUIR, new DeixarDeSeguirComandoImpl());
+
+		comandos.put(Comando.LISTAR_MENSAGENS_SEGUIDOS,
+				new ListagemMensagemSeguidosComandoImpl());
+
+		comandos.put(Comando.LISTAR_MENSAGENS_USUARIO,
+				new ListagemMensagemUsuarioComandoImpl());
+
+		comandos.put(Comando.LISTAR_SEGUIDORES,
+				new ListagemSeguidoresComandoImpl());
+
+		comandos
+				.put(Comando.LISTAR_SEGUIDOS, new ListagemSeguidosComandoImpl());
+
+		comandos
+				.put(Comando.POSTAR_MENSAGEM, new PostagemMensagemComandoImpl());
+
+		comandos.put(Comando.SEGUIR, new SeguirComandoImpl());
+
+		// comandos.put(Comando.LISTAR_ESTATISTICAS_USUARIO, new
+		// CadastroUsuarioComandoImpl());
+
+		// comandos.put(Comando.LISTAR_MENSAGENS_COM_PALAVRA_MARCADA, new
+		// CadastroUsuarioComandoImpl());
+
+		// comandos.put(Comando.LISTAR_TENDENCIA, new
+		// CadastroUsuarioComandoImpl());
+
+	}
+
+	public String executarComando(String linhaComando) {
+
+		int indexDelimitadorComando = linhaComando.indexOf(" ");
+
+		String comandoString = linhaComando.substring(0,
+				indexDelimitadorComando);
+
+		String parametrosString = linhaComando
+				.substring(indexDelimitadorComando + 1);
+
+		Comando comando = comandos.get(comandoString);
+
+		if (comando == null) {
+			return null;
+		}
+
+		int numeroArgumentos = comando.getNumeroArgumentos();
+
+		List<String> parametros = new ArrayList<String>();
+
+		switch (numeroArgumentos) {
+		case 1:
+			parametros.add(parametrosString);
+			break;
+		case 2:
+			int indexParam = parametrosString.indexOf(' ');
+
+			parametros.add(parametrosString.substring(0, indexParam));
+
+			parametros.add(parametrosString.substring(indexParam + 1));
+			break;
+		}
+
+		return comando.execute(parametros.toArray(new String[0]));
+
+	}
+}
